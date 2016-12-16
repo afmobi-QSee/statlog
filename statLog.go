@@ -23,7 +23,7 @@ func StatLogInit(statLogPath, statLogName, statEnv, statUdpHost string) error{
 		os.Mkdir(statLogPath, 0755)
 	}
 
-	StatLog = asyncLog.NewLevelLog(statLogPath + statLogName, asyncLog.LevelOff)
+	StatLog = asyncLog.NewLevelLog(statLogPath + "/" +statLogName, asyncLog.LevelOff)
 	StatLog.SetFlags(asyncLog.NoFlag)
 	StatLog.SetRotate(asyncLog.RotateDate)
 
