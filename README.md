@@ -1,2 +1,2 @@
 # statlog
-go get -u github.com/afmobi-QSee/statlog
+go get gopkg.in/afmobi-QSee/statlog.v1
