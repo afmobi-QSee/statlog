@@ -18,5 +18,5 @@ func Test_StatUdpInit(t *testing.T){
 
 func Test_StatusInit(t *testing.T){
 	StatUdpInit("prd.palmgroup.access", "172.17.40.21:8125")
-	AccessSetByIp("key", "set")
+	AccessSetByIP("key", "set")
 }

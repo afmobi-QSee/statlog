@@ -4,12 +4,12 @@ import (
 	"net"
 	"strings"
 	"bytes"
+	"gopkg.in/alexcesaro/statsd.v2"
 )
 
 type StatusUdp struct {
 	StatEnv string
-	StatUdpHost string
-	StatusUdpConn net.Conn
+	StatusUdpConn	*statsd.Client
 	LocalIp string
 	err error
 }
@@ -17,11 +17,13 @@ type StatusUdp struct {
 var statusUdpStruct *StatusUdp
 
 func StatUdpInit(statEnv, statUdpHost string) *StatusUdp{
-	StatusUdpConn, err := net.Dial("udp", statUdpHost)
+	StatusUdpConn, err := statsd.New(statsd.Address(statUdpHost))
 	if err != nil {
 		return &StatusUdp{err:err}
 	}
+	//defer StatusUdpConn.Close()
 
+	//获取本机ip地址
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		return &StatusUdp{err:err}
@@ -44,11 +46,11 @@ func StatUdpInit(statEnv, statUdpHost string) *StatusUdp{
 }
 
 func (this *StatusUdp)sentUdp(data string){
-	this.StatusUdpConn.Write([]byte(data))
+	this.StatusUdpConn.Increment(data)
 }
 
 //key + set去重统计 比如所有用户去重统计user + uid
-func AccessSetByIp(key, set string){
+func AccessSet(key, set string){
 	statusUdpStruct.sentUdp(statusUdpStruct.BufferStringJoin(".", key, ":", set, "|s"))
 }
 
@@ -64,6 +66,7 @@ func ApiSet(apiName, key, set string) {
 	statusUdpStruct.sentUdp(data)
 }
 
+//根据本机IP + api + key + set去重统计 比如本机 + api + user + uid
 func ApiSetByIP(apiName, key, set string) {
 	data := statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIp, ".", apiName, ".", key, ":", set, "|s")
 	statusUdpStruct.sentUdp(data)
