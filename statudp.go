@@ -21,7 +21,6 @@ func StatUdpInit(statEnv, statUdpHost string) *StatusUdp{
 	if err != nil {
 		return &StatusUdp{err:err}
 	}
-	//defer StatusUdpConn.Close()
 
 	//获取本机ip地址
 	addrs, err := net.InterfaceAddrs()
