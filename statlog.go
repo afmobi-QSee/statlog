@@ -10,8 +10,8 @@ import (
 
 var StatLog *asyncLog.LogFile
 
-func StatLogInit(statLogPath, statLogName, statEnv, statUdpHost string) error{
-	statusUdp := StatUdpInit(statEnv, statUdpHost)
+func StatLogInit(statLogPath, statLogName, statEnv, statUdpHost, localIp, localPort string) error{
+	statusUdp := StatUdpInit(statEnv, statUdpHost, localIp, localPort)
 
 	if statusUdp.err != nil {
 		return statusUdp.err
@@ -20,10 +20,10 @@ func StatLogInit(statLogPath, statLogName, statEnv, statUdpHost string) error{
 	_, err := os.Stat(statLogPath)
 
 	if os.IsNotExist(err){
-		os.Mkdir(statLogPath, 0755)
+		os.MkdirAll(statLogPath, 0755)
 	}
 
-	StatLog = asyncLog.NewLevelLog(statLogPath +statLogName, asyncLog.LevelOff)
+	StatLog = asyncLog.NewLevelLog(statLogPath + statLogName, asyncLog.LevelOff)
 	StatLog.SetFlags(asyncLog.NoFlag)
 	StatLog.SetRotate(asyncLog.RotateDate)
 
