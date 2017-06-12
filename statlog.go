@@ -35,6 +35,6 @@ func Stat(modelName string, model interface{}) error{
 	if err != nil {
 		return err
 	}
-	StatLog.Write(strconv.FormatInt(time.Now().Unix(), 10) + " " + modelName + "|||||" + string(modelJson))
+	StatLog.Write(strconv.FormatInt(time.Now().Unix(), 10) + "	" + modelName + "	" + string(modelJson))
 	return nil
 }
