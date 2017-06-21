@@ -36,5 +36,9 @@ func Stat(modelName string, model interface{}) error{
 		return err
 	}
 	StatLog.Write(strconv.FormatInt(time.Now().Unix(), 10) + "	" + modelName + "	" + string(modelJson))
+
+	// 注意：因为是每秒写入一次，所以这里需要暂停一下
+	time.Sleep(time.Second * 2)
+
 	return nil
 }
