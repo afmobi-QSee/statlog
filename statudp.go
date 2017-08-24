@@ -64,6 +64,26 @@ func ApiSetByIP(apiName, key, set string) {
 	statusUdpStruct.sentUdp(data)
 }
 
+//根据api统计
+func ApiCount(apiName string) {
+	data := statusUdpStruct.BufferStringJoin(".", apiName, ":1|c")
+	statusUdpStruct.sentUdp(data)
+}
+
+//根据本机IP + api 统计
+func ApiCountByIP(apiName string) {
+	data := statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIpAndPort, ".", apiName, ":1|c")
+	statusUdpStruct.sentUdp(data)
+}
+
+//多条统计 根据api统计 和 (根据本机IP + api 统计)
+func ApiCountAndByIP(apiName string) {
+	var buffer bytes.Buffer
+	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", apiName, ":1|c\n"))
+	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIpAndPort, ".", apiName, ":1|c"))
+	statusUdpStruct.sentUdp(buffer.String())
+}
+
 //多条统计 总访问量  api访问量 和 api执行时间统计 毫秒
 func MultCount(apiName, ms string) {
 	var buffer bytes.Buffer
