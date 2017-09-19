@@ -84,16 +84,9 @@ func ApiCountAndByIP(apiName string) {
 	statusUdpStruct.sentUdp(buffer.String())
 }
 
-//多条统计 总访问量  api访问量 和 api执行时间统计 毫秒
+//总访问量 主机ip访问量  api访问量 和 api执行时间统计 毫秒
 func MultCount(apiName, ms string) {
 	var buffer bytes.Buffer
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(":1|c\n"))  //所有访问量统计
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(":", ms, "|ms\n"))  //所有访问量 + 执行时间统计
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIpAndPort, ":1|c\n")) //根据本机ip统计
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIpAndPort, ":", ms, "|ms\n"))  //根据本机ip + 执行时间统计
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", apiName, ":1|c\n"))  //根据api接口统计
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", apiName, ":", ms, "|ms\n"))  //根据api接口 + 执行时间统计
-	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIpAndPort, ".", apiName, ":1|c\n"))  //根据本机ip + api接口统计
 	buffer.WriteString(statusUdpStruct.BufferStringJoin(".", statusUdpStruct.LocalIpAndPort, ".", apiName, ":", ms, "|ms")) //根据本机ip + api接口 + 执行时间统计
 	statusUdpStruct.sentUdp(buffer.String())
 }
