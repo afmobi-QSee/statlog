@@ -1,2 +1,2 @@
 # statlog
-go get gopkg.in/afmobi-QSee/statlog.v1
+go get gopkg.in/afmobi-QSee/statlog.v2
