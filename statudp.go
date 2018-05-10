@@ -70,6 +70,12 @@ func ApiCount(apiName string) {
 	statusUdpStruct.sentUdp(data)
 }
 
+//根据api统计
+func ApiCountNum(apiName, number string) {
+	data := statusUdpStruct.BufferStringJoin(".", apiName, ":", number, "|c")
+	statusUdpStruct.sentUdp(data)
+}
+
 //根据本机IP + api 统计
 func ApiCountByIP(apiName string) {
 	data := statusUdpStruct.BufferStringJoin(".error.", statusUdpStruct.LocalIpAndPort, ".", apiName, ":1|c")
